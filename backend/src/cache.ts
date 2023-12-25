@@ -14,7 +14,10 @@ export async function connectToRedis() {
 		},
 	});
 
-	client.on("error", (err) => console.log("Redis Client Error", err));
+	client.on("error", (error: any) => {
+		console.error("REDIS ERROR");
+		console.error(error.message || error);
+	});
 	client.on("connect", () => console.log("Connected to Redis!"));
 
 	await client.connect();
