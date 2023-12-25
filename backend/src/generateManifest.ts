@@ -4,11 +4,17 @@ export default function generateManifest(
 	user: string,
 	configured: boolean = true
 ) {
+	let description = `Display your Simkl watch list in Stremio, by @nktfh100`;
+
+	if (configured) {
+		description += ` (SIMKL user - ${user})`;
+	}
+
 	return {
 		id: "com.nktfh100.stremiosimkl." + slugify(user),
-		version: "0.1.0",
+		version: "0.1.1",
 		name: "Stremio Simkl",
-		description: "Display your Simkl watch list in Stremio for " + user,
+		description,
 		logo: "https://eu.simkl.in/img_favicon/v2/favicon-192x192.png",
 		catalogs: [
 			{

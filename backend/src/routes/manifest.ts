@@ -6,7 +6,7 @@ import { getSimkleUsername } from "@/simkl";
 
 export default async function registerManifestRoute(app: Express) {
 	app.get("/manifest.json", async (req, res) => {
-		res.send(generateManifest("unconfigured", false));
+		res.send(generateManifest("", false));
 	});
 
 	app.get("/:config/manifest.json", async (req, res) => {
