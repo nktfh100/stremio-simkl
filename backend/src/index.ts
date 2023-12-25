@@ -22,13 +22,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use((req, res, next) => {
-	if (process.env.NODE_ENV == "production") {
-		res.set("Cache-Control", `public, max-age=${60}`); // 1 minute
-	}
-	next();
-});
-
 app.get("/", (req, res) => {
 	res.redirect(process.env.FRONTEND_URL!);
 });

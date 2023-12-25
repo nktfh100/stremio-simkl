@@ -87,6 +87,11 @@ export default async function registerCatalogRoute(app: Express) {
 			});
 		}
 
+		// Cache for 1 minute
+		if (process.env.NODE_ENV == "production") {
+			res.set("Cache-Control", `public, max-age=${60}`);
+		}
+
 		res.send({
 			metas: stremioItems,
 		});
