@@ -20,7 +20,7 @@ export default async function registerGenerateLinkRoute(app: Express) {
 		const encryptedConfig = generateEncryptedConfig(simklToken);
 
 		res.send({
-			link: `stremio://${process.env.BACKEND_URI}/${encryptedConfig}/manifest.json`,
+			link: `stremio://${process.env.BACKEND_HOST}/${encryptedConfig}/manifest.json`,
 		});
 
 		console.log(`Generated install link`);
