@@ -58,16 +58,22 @@ export default async function registerCatalogRoute(app: Express) {
 					? await getTMDBShowMeta(itemMeta.ids.tmdb)
 					: await getTMDBMovieMeta(itemMeta.ids.tmdb);
 
-			const nextEpisodeDescription =
-				stremioType == "series" && !isPlanToWatch
-					? `Next episode to watch: ${
-							(simklItem as SimklShow).next_to_watch
-					  }\n\n`
-					: "";
-			const description = `${nextEpisodeDescription}${
-				tmdbMeta?.overview
-			}${tmdbMeta ? "\n\nData by TMDB." : ""}`;
-			const genres = tmdbMeta?.genres.map((genre) => genre.name);
+			const showNextEpisodeText =
+				stremioType == "series" && !isPlanToWatch;
+			const nextEpisodeDescription = showNextEpisodeText
+				? `Next episode to watch: ${
+						(simklItem as SimklShow).next_to_watch
+				  }\n\n`
+				: "";
+
+			const overview = tmdbMeta ? tmdbMeta.overview : "";
+			const tmdbCredit = tmdbMeta ? "\n\nData by TMDB." : "";
+
+			const description = `${nextEpisodeDescription}${overview}${tmdbCredit}`;
+
+			const genres = tmdbMeta
+				? tmdbMeta.genres.map((genre) => genre.name)
+				: [];
 
 			stremioItems.push({
 				id: itemMeta.ids.imdb,

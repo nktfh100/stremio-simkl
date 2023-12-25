@@ -27,7 +27,6 @@ export async function getTMDBMovieMeta(
 	} catch (error: any) {
 		console.error("TMDB MOVIE API ERROR", tmdbId);
 
-		if (error.response) console.error(error.response.data);
 		if (error.message) console.error(error.message);
 
 		return null;
@@ -55,7 +54,6 @@ export async function getTMDBShowMeta(
 	} catch (error: any) {
 		console.error("TMDB SHOW API ERROR", tmdbId);
 
-		if (error.response) console.error(error.response.data);
 		if (error.message) console.error(error.message);
 
 		return null;
