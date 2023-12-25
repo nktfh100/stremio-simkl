@@ -41,7 +41,8 @@ registerCatalogRoute(app);
 app.listen(PORT, async () => {
 	console.log(`Server listening on port ${PORT}`);
 	connectToRedis();
-	// if (process.env.NODE_ENV == "production") {
-	// 	publishToCentral(`https://${process.env.BACKEND_URI}/manifest.json`);
-	// }
+
+	if (process.env.NODE_ENV == "production") {
+		publishToCentral(`https://${process.env.BACKEND_URI}/manifest.json`);
+	}
 });
