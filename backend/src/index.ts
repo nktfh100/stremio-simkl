@@ -43,6 +43,7 @@ app.listen(PORT, async () => {
 	connectToRedis();
 
 	if (process.env.NODE_ENV == "production") {
+		console.log("Publishing to central...");
 		publishToCentral(`https://${process.env.BACKEND_HOST}/manifest.json`);
 	}
 });

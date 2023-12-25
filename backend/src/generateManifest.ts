@@ -4,7 +4,7 @@ export default function generateManifest(
 	user: string,
 	configured: boolean = true
 ) {
-	let description = `Display your Simkl watch list in Stremio, by @nktfh100`;
+	let description = `Unofficial addon to display your Simkl Watchlists in Stremio, by @nktfh100`;
 
 	if (configured) {
 		description += ` (SIMKL user - ${user})`;
@@ -18,8 +18,8 @@ export default function generateManifest(
 
 	return {
 		id,
-		version: "0.1.1",
-		name: "Stremio Simkl",
+		version: "0.1.2",
+		name: "Simkl Watchlists",
 		description,
 		logo: "https://eu.simkl.in/img_favicon/v2/favicon-192x192.png",
 		catalogs: [

@@ -19,13 +19,13 @@ export default function App() {
 					<p>+</p>
 					<img src="/simkl-logo.webp" alt="Simkl Logo" />
 				</div>
-				<h1 className={styles["title"]}>Stremio Simkl</h1>
-				<h2 className={styles["version"]}>v0.1.1</h2>
+				<h1 className={styles["title"]}>Stremio Simkl Watchlists</h1>
+				<h2 className={styles["version"]}>v0.1.2</h2>
 
 				<h2 className={styles["description"]}>
 					<Balancer>
-						Simple Stremio addon to display your Simkl watch list in
-						Stremio.
+						Unofficial Stremio addon to display your Simkl
+						Watchlists in Stremio
 					</Balancer>
 				</h2>
 
