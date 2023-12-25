@@ -10,8 +10,14 @@ export default function generateManifest(
 		description += ` (SIMKL user - ${user})`;
 	}
 
+	let id = "com.nktfh100.stremiosimkl";
+
+	if (configured) {
+		id += "." + slugify(user);
+	}
+
 	return {
-		id: "com.nktfh100.stremiosimkl." + slugify(user),
+		id,
 		version: "0.1.1",
 		name: "Stremio Simkl",
 		description,
