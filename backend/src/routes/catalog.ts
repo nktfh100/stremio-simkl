@@ -8,6 +8,8 @@ import { createReleaseInfo, generatePosterUrl } from "@/utils";
 
 export default async function registerCatalogRoute(app: Express) {
 	app.get("/:config/catalog/:type/:list.json", async (req, res) => {
+		console.log("Catalog request", req.params.list);
+
 		const config = decryptConfig(req.params.config);
 		if (!config.simklToken) {
 			return res.status(400).send("Invalid config");
