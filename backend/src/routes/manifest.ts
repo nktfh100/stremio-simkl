@@ -20,8 +20,8 @@ export default async function registerManifestRoute(app: Express) {
 
 		const manifest = generateManifest(username);
 
-		res.send(manifest);
-
 		console.log(`Generated manifest for ${username}`);
+
+		res.send(manifest);
 	});
 }

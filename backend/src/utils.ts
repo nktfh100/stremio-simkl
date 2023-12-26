@@ -5,8 +5,13 @@ import {
 	TMDBShowResponse,
 } from "@/types";
 
+const simklCacheUrl = "https://wsrv.nl/?url=https://simkl.in";
 export function generatePosterUrl(poster: string): string {
-	return `https://simkl.in/posters/${poster}_m.webp`;
+	if (!poster) {
+		return `${simklCacheUrl}/poster_no_pic.png`;
+	}
+
+	return `${simklCacheUrl}/posters/${poster}_m.webp`;
 }
 
 export function slugify(str: string): string {
