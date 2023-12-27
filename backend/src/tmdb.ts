@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
-import getClient from "@/cache";
-import { CleanedTMDBMovie, CleanedTMDBShow } from "@/types";
-import { cleanTMDBMovieMeta, cleanTMDBShowMeta } from "@/utils";
+import getClient from '@/cache';
+import { CleanedTMDBMovie, CleanedTMDBShow } from '@/types';
+import { cleanTMDBMovieMeta, cleanTMDBShowMeta } from '@/utils';
 
 const TMDB_API = "https://api.themoviedb.org/3";
 
@@ -67,6 +67,8 @@ async function getCachedTMDBMovieMeta(
 	tmdbId: string
 ): Promise<CleanedTMDBMovie | null> {
 	try {
+		if(!tmdbId) return null;
+
 		const dataStr = await getClient().get(tmdbId);
 		if (!dataStr) return null;
 
@@ -82,6 +84,8 @@ async function getCachedTMDBShowMeta(
 	tmdbId: string
 ): Promise<CleanedTMDBShow | null> {
 	try {
+		if(!tmdbId) return null;
+
 		const dataStr = await getClient().get(tmdbId);
 		if (!dataStr) return null;
 
