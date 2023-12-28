@@ -1,4 +1,9 @@
-import { CleanedTMDBMovie, CleanedTMDBShow, TMDBMovieResponse, TMDBShowResponse } from '@/types';
+import {
+	CleanedTMDBMovie,
+	CleanedTMDBShow,
+	TMDBMovieResponse,
+	TMDBShowResponse,
+} from "@/types";
 
 const simklCacheUrl = "https://wsrv.nl/?url=https://simkl.in";
 export function generatePosterUrl(poster: string): string {
@@ -10,7 +15,7 @@ export function generatePosterUrl(poster: string): string {
 }
 
 export function slugify(str: string | undefined): string {
-	if(!str) return "";
+	if (!str) return "";
 
 	return str
 		.toLowerCase()
@@ -48,6 +53,8 @@ export function createReleaseInfo(
 }
 
 function extractYear(releaseInfo: string): string {
+	if (!releaseInfo) return "";
+
 	return releaseInfo.split("-")[0];
 }
 
