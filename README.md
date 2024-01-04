@@ -1,6 +1,5 @@
 # Stremio Simkl Watchlists Addon
-
-Unofficial Stremio addon to display your Simkl Watchlists.
+Stremio addon to display your Simkl Watchlists.
 
 ## Install addon
 
