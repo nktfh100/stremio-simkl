@@ -87,7 +87,9 @@ export default async function registerCatalogRoute(app: Express) {
 					{
 						name: "Simkl",
 						category: "Simkl",
-						url: `https://simkl.com/${itemMeta.ids.simkl}/${itemMeta.ids.slug}`,
+						url: `https://simkl.com/${
+							stremioType == "movie" ? "movies" : "tv"
+						}/${itemMeta.ids.simkl}`,
 					},
 				],
 				genres,
