@@ -26,6 +26,10 @@ app.get("/", (req, res) => {
 	res.redirect(process.env.FRONTEND_URL!);
 });
 
+app.get("/health", (req, res) => {
+	res.send("OK");
+});
+
 registerManifestRoute(app);
 registerConfigureRoute(app);
 registerGenerateLinkRoute(app);
