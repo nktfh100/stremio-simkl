@@ -1,6 +1,7 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
+import * as process from "process";
 import { publishToCentral } from "stremio-addon-sdk";
 
 import { connectToRedis } from "@/cache";
@@ -35,12 +36,22 @@ registerConfigureRoute(app);
 registerGenerateLinkRoute(app);
 registerCatalogRoute(app);
 
+process.on("unhandledRejection", (reason, promise) => {
+	console.error("Unhandled Rejection at:", promise, "reason:", reason);
+});
+
 app.listen(PORT, async () => {
 	console.log(`Server listening on port ${PORT}`);
 	connectToRedis();
 
 	if (process.env.NODE_ENV == "production") {
 		console.log("Publishing to central...");
-		publishToCentral(`https://${process.env.BACKEND_HOST}/manifest.json`);
+		try {
+			publishToCentral(
+				`https://${process.env.BACKEND_HOST}/manifest.json`
+			);
+		} catch (error) {
+			console.error("Failed to publish to central", error);
+		}
 	}
 });
