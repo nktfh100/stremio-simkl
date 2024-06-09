@@ -14,24 +14,34 @@ export function initEncryption() {
 }
 
 export function encrypt(data: string): string {
-	const iv = crypto.randomBytes(16);
-	const cipher = crypto.createCipheriv(algorithm, key, iv);
-	const encrypted = Buffer.concat([cipher.update(data), cipher.final()]);
-	return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
+	try {
+		const iv = crypto.randomBytes(16);
+		const cipher = crypto.createCipheriv(algorithm, key, iv);
+		const encrypted = Buffer.concat([cipher.update(data), cipher.final()]);
+		return `${iv.toString("hex")}:${encrypted.toString("hex")}`;
+	} catch (error) {
+		console.log("Error encrypting data", error);
+		return "";
+	}
 }
 
 export function decrypt(data: string): string {
-	const [iv, encrypted] = data.split(":");
-	const decipher = crypto.createDecipheriv(
-		algorithm,
-		key,
-		Buffer.from(iv, "hex")
-	);
-	const decrypted = Buffer.concat([
-		decipher.update(Buffer.from(encrypted, "hex")),
-		decipher.final(),
-	]);
-	return decrypted.toString();
+	try {
+		const [iv, encrypted] = data.split(":");
+		const decipher = crypto.createDecipheriv(
+			algorithm,
+			key,
+			Buffer.from(iv, "hex")
+		);
+		const decrypted = Buffer.concat([
+			decipher.update(Buffer.from(encrypted, "hex")),
+			decipher.final(),
+		]);
+		return decrypted.toString();
+	} catch (error) {
+		console.log("Error decrypting data", error);
+		return "";
+	}
 }
 
 export function generateEncryptedConfig(simklAccessToken: string): string {
