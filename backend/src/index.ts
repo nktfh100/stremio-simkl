@@ -41,12 +41,12 @@ app.listen(PORT, async () => {
 
 	if (process.env.NODE_ENV == "production") {
 		console.log("Publishing to central...");
-		try {
-			publishToCentral(
-				`https://${process.env.BACKEND_HOST}/manifest.json`
-			);
-		} catch (error) {
-			console.error("Failed to publish to central", error);
-		}
+		// try {
+		// 	publishToCentral(
+		// 		`https://${process.env.BACKEND_HOST}/manifest.json`
+		// 	);
+		// } catch (error) {
+		// 	console.error("Failed to publish to central", error);
+		// }
 	}
 });
