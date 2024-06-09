@@ -20,10 +20,7 @@ export async function connectToRedis() {
 	});
 	client.on("connect", () => console.log("Connected to Redis!"));
 
-	await client.connect().catch((error: any) => {
-		console.error("Failed to connect to Redis");
-		console.error(error.message || error);
-	});
+	client.connect();
 }
 
 export default function getClient() {

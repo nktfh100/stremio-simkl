@@ -1,7 +1,6 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import { publishToCentral } from "stremio-addon-sdk";
 
 import { connectToRedis } from "@/cache";
 import { initEncryption } from "@/encryption";
@@ -10,6 +9,8 @@ import registerGenerateLinkRoute from "@/routes/generateLink";
 import registerManifestRoute from "@/routes/manifest";
 
 import registerConfigureRoute from "./routes/configure";
+
+// import { publishToCentral } from "stremio-addon-sdk";
 
 dotenv.config();
 
@@ -39,14 +40,14 @@ app.listen(PORT, async () => {
 	console.log(`Server listening on port ${PORT}`);
 	connectToRedis();
 
-	if (process.env.NODE_ENV == "production") {
-		console.log("Publishing to central...");
-		// try {
-		// 	publishToCentral(
-		// 		`https://${process.env.BACKEND_HOST}/manifest.json`
-		// 	);
-		// } catch (error) {
-		// 	console.error("Failed to publish to central", error);
-		// }
-	}
+	// if (process.env.NODE_ENV == "production") {
+	// console.log("Publishing to central...");
+	// try {
+	// 	publishToCentral(
+	// 		`https://${process.env.BACKEND_HOST}/manifest.json`
+	// 	);
+	// } catch (error) {
+	// 	console.error("Failed to publish to central", error);
+	// }
+	// }
 });
