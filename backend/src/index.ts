@@ -1,7 +1,6 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import * as process from "process";
 import { publishToCentral } from "stremio-addon-sdk";
 
 import { connectToRedis } from "@/cache";
@@ -35,10 +34,6 @@ registerManifestRoute(app);
 registerConfigureRoute(app);
 registerGenerateLinkRoute(app);
 registerCatalogRoute(app);
-
-process.on("unhandledRejection", (reason, promise) => {
-	console.error("Unhandled Rejection at:", promise, "reason:", reason);
-});
 
 app.listen(PORT, async () => {
 	console.log(`Server listening on port ${PORT}`);
