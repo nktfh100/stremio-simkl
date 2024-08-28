@@ -118,6 +118,7 @@ export interface CleanedTMDBMovie {
 	release_date: string;
 	genres: { id: number; name: string }[];
 	overview: string;
+	status: string;
 }
 
 export interface SimklIds {

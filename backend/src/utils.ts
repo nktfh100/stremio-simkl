@@ -76,5 +76,6 @@ export function cleanTMDBMovieMeta(meta: TMDBMovieResponse): CleanedTMDBMovie {
 		release_date: meta.release_date,
 		genres: meta.genres,
 		overview: meta.overview,
+		status: meta.status,
 	};
 }

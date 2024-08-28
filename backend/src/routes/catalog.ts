@@ -78,9 +78,19 @@ export default async function registerCatalogRoute(app: Express) {
 				? tmdbMeta.genres.map((genre) => genre.name)
 				: [];
 
-			const posterUrl = process.env.USE_RPDB
-				? getRPDBPosterUrl(itemMeta.ids.tmdb)
-				: generatePosterUrl(itemMeta.poster);
+			let posterUrl = generatePosterUrl(itemMeta.poster);
+
+			if (process.env.USE_RPDB) {
+				// Currently RPDB only has released movies and series
+				if (
+					(stremioType == "movie" &&
+						tmdbMeta?.status == "Released") ||
+					(stremioType == "series" &&
+						tmdbMeta?.status != "In Production")
+				) {
+					posterUrl = getRPDBPosterUrl(itemMeta.ids.tmdb);
+				}
+			}
 
 			stremioItems.push({
 				id: itemMeta.ids.imdb,
