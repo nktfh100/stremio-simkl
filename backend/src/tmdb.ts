@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
-import getClient from '@/cache';
-import { CleanedTMDBMovie, CleanedTMDBShow } from '@/types';
-import { cleanTMDBMovieMeta, cleanTMDBShowMeta } from '@/utils';
+import getClient from "@/cache";
+import { CleanedTMDBMovie, CleanedTMDBShow } from "@/types";
+import { cleanTMDBMovieMeta, cleanTMDBShowMeta } from "@/utils";
 
 const TMDB_API = "https://api.themoviedb.org/3";
 
@@ -67,9 +67,12 @@ async function getCachedTMDBMovieMeta(
 	tmdbId: string
 ): Promise<CleanedTMDBMovie | null> {
 	try {
-		if(!tmdbId) return null;
+		if (!tmdbId) return null;
 
-		const dataStr = await getClient().get(tmdbId);
+		const redisClient = getClient();
+		if (!redisClient) return null;
+
+		const dataStr = await redisClient.get(tmdbId);
 		if (!dataStr) return null;
 
 		const data = JSON.parse(dataStr);
@@ -84,9 +87,12 @@ async function getCachedTMDBShowMeta(
 	tmdbId: string
 ): Promise<CleanedTMDBShow | null> {
 	try {
-		if(!tmdbId) return null;
+		if (!tmdbId) return null;
 
-		const dataStr = await getClient().get(tmdbId);
+		const redisClient = getClient();
+		if (!redisClient) return null;
+
+		const dataStr = await redisClient.get(tmdbId);
 		if (!dataStr) return null;
 
 		const data = JSON.parse(dataStr);
@@ -102,7 +108,10 @@ async function cacheTMDBMovieMeta(
 	meta: CleanedTMDBMovie
 ): Promise<void> {
 	try {
-		await getClient().set(tmdbId, JSON.stringify(meta), {
+		const redisClient = getClient();
+		if (!redisClient) return;
+
+		await redisClient.set(tmdbId, JSON.stringify(meta), {
 			EX: cacheTTL,
 		});
 	} catch (error) {
@@ -115,7 +124,10 @@ async function cacheTMDBShowMeta(
 	meta: CleanedTMDBShow
 ): Promise<void> {
 	try {
-		await getClient().set(tmdbId, JSON.stringify(meta), {
+		const redisClient = getClient();
+		if (!redisClient) return;
+
+		await redisClient.set(tmdbId, JSON.stringify(meta), {
 			EX: cacheTTL,
 		});
 	} catch (error) {

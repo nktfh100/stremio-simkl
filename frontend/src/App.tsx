@@ -1,11 +1,9 @@
 import Balancer from "react-wrap-balancer";
-
-import styles from "@/App.module.scss";
 import GenerateLink from "@/components/GenerateLink/GenerateLink";
-import SimklAuth from "@/components/SimklAuth/SimklAuth";
-import useAppStore from "@/lib/appStore";
-
 import LinkBtn from "./components/LinkBtn/LinkBtn";
+import SimklAuth from "@/components/SimklAuth/SimklAuth";
+import styles from "@/App.module.scss";
+import useAppStore from "@/lib/appStore";
 
 export default function App() {
 	const simklCode = useAppStore((state) => state.code);
@@ -20,7 +18,7 @@ export default function App() {
 					<img src="/simkl-logo.webp" alt="Simkl Logo" />
 				</div>
 				<h1 className={styles["title"]}>Stremio Simkl Watchlists</h1>
-				<h2 className={styles["version"]}>v0.1.3</h2>
+				<h2 className={styles["version"]}>v0.1.4</h2>
 
 				<h2 className={styles["description"]}>
 					<Balancer>

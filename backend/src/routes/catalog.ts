@@ -1,6 +1,7 @@
 import { Express } from "express";
 
 import { decryptConfig } from "@/encryption";
+import { getRPDBPosterUrl } from "@/rpdb";
 import { getSimklUserWatchList } from "@/simkl";
 import { getTMDBMovieMeta, getTMDBShowMeta } from "@/tmdb";
 import { SimklMovie, SimklShow } from "@/types";
@@ -77,11 +78,15 @@ export default async function registerCatalogRoute(app: Express) {
 				? tmdbMeta.genres.map((genre) => genre.name)
 				: [];
 
+			const posterUrl = process.env.USE_RPDB
+				? getRPDBPosterUrl(itemMeta.ids.tmdb)
+				: generatePosterUrl(itemMeta.poster);
+
 			stremioItems.push({
 				id: itemMeta.ids.imdb,
 				type: stremioType,
 				name: itemMeta.title,
-				poster: generatePosterUrl(itemMeta.poster),
+				poster: posterUrl,
 				description,
 				links: [
 					{

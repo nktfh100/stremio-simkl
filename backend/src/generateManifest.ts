@@ -1,4 +1,4 @@
-import { slugify } from '@/utils';
+import { slugify } from "@/utils";
 
 export default function generateManifest(
 	user: string,
@@ -6,7 +6,7 @@ export default function generateManifest(
 ) {
 	let description = `Unofficial addon to display your Simkl Watchlists in Stremio, by @nktfh100`;
 
-	if(!user) {
+	if (!user) {
 		user = "unknown";
 	}
 
@@ -22,7 +22,7 @@ export default function generateManifest(
 
 	return {
 		id,
-		version: "0.1.3",
+		version: "0.1.4",
 		name: "Simkl Watchlists",
 		description,
 		logo: "https://eu.simkl.in/img_favicon/v2/favicon-192x192.png",

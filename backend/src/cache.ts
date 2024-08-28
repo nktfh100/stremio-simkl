@@ -11,6 +11,16 @@ export async function connectToRedis() {
 		socket: {
 			port: parseInt(process.env.REDIS_PORT || "6379"),
 			host: process.env.REDIS_HOST || "localhost",
+			reconnectStrategy: function (retries) {
+				if (retries > 20) {
+					console.log(
+						"Too many attempts to reconnect. Redis connection was terminated"
+					);
+					return new Error("Too many retries.");
+				} else {
+					return retries * 500;
+				}
+			},
 		},
 	});
 

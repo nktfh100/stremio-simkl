@@ -38,7 +38,9 @@ registerCatalogRoute(app);
 
 app.listen(PORT, async () => {
 	console.log(`Server listening on port ${PORT}`);
-	connectToRedis();
+	if (!process.env.DISABLE_REDIS) {
+		connectToRedis();
+	}
 
 	// if (process.env.NODE_ENV == "production") {
 	// console.log("Publishing to central...");
