@@ -41,6 +41,12 @@ export default function generateManifest(
 				extra: catalogExtra,
 			},
 			{
+				id: "simkl-completed-movie",
+				type: "movie",
+				name: "SIMKL Completed",
+				extra: catalogExtra,
+			},
+			{
 				id: "simkl-watching",
 				type: "series",
 				name: "SIMKL Watching",
@@ -55,12 +61,6 @@ export default function generateManifest(
 			{
 				id: "simkl-completed-series",
 				type: "series",
-				name: "SIMKL Completed",
-				extra: catalogExtra,
-			},
-			{
-				id: "simkl-completed-movie",
-				type: "movie",
 				name: "SIMKL Completed",
 				extra: catalogExtra,
 			},

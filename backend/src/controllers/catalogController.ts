@@ -76,13 +76,29 @@ export const generateCatalog = async (
 		return [];
 	}
 
+	const stremioItems: SimklCatalogItem[] = [];
+
+	if (listType == "plantowatch") {
+		items.sort((a, b) => {
+			const yearA =
+				(a as SimklShow).show?.year || (a as SimklMovie).movie.year || 0;
+			const yearB =
+				(b as SimklShow).show?.year || (b as SimklMovie).movie.year || 0;
+			return yearB - yearA;
+		});
+	} else {
+		items.sort(
+			(a, b) =>
+				new Date(b.last_watched_at!).getTime() -
+				new Date(a.last_watched_at!).getTime()
+		);
+	}
+
 	// Skip items
 	items = items.slice(skip);
 
 	// Limit items
 	items = items.slice(0, maxItems);
-
-	const stremioItems: any[] = [];
 
 	for (const simklItem of items) {
 		const itemMeta =
