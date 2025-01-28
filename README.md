@@ -3,7 +3,7 @@ Stremio addon to display your Simkl Watchlists.
 
 ## Install addon
 
-[Configure addon](https://stremio-simkl.nktfh100.com)
+[Configure addon](https://stremio-simkl.malachi.io)
 
 
 ## Development
@@ -13,6 +13,8 @@ Create .env files inside `backend` and `frontend` folders based on the `.env.exa
 You will need a redis server running, A TMDB API key, RPDB API key (optional) and a Simkl app.
 
 To create a Simkl app: [Simkl Developer Settings](https://simkl.com/settings/developer/).
+
+Start the redis server using the provided docker compose file: `docker compose -f docker-compose-dev.yaml up -d`.
 
 Run `npm install` inside both folders.
 
