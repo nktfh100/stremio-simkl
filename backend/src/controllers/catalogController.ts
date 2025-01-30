@@ -139,7 +139,7 @@ export const generateCatalog = async (
         (stremioType == "movie" && tmdbMeta?.status == "Released") ||
         (stremioType == "series" && tmdbMeta?.status != "In Production")
       ) {
-        posterUrl = getRPDBPosterUrl(itemMeta.ids.tmdb);
+        posterUrl = getRPDBPosterUrl(itemMeta.ids.tmdb, stremioType);
       }
     }
 
