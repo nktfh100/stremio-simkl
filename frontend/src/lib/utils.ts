@@ -15,6 +15,6 @@ export const isMobileDevice = () => {
       )
     )
       check = true;
-  })(navigator.userAgent || navigator.vendor || window.opera);
+  })(navigator.userAgent || navigator.vendor || (window as any).opera);
   return check;
 };
