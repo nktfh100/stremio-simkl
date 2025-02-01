@@ -12,6 +12,7 @@
 		"dotenv": "^16.3.1",
 		"express": "^4.21.2",
 		"redis": "^4.6.12",
+		"shared": "file:../shared",
 		"ts-node": "^10.9.2",
 		"tsconfig-paths": "^4.2.0"
 	},

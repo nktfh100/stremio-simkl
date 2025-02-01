@@ -12,10 +12,14 @@
   "dependencies": {
     "@fontsource/roboto": "^5.0.8",
     "@uiball/loaders": "^1.3.1",
+    "rdndmb-html5-to-touch": "^9.0.0",
     "react": "^18.2.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-multi-backend": "^9.0.0",
     "react-dom": "^18.2.0",
     "react-wrap-balancer": "^1.1.0",
     "sass": "^1.69.5",
+    "shared": "file:../shared",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
