@@ -11,8 +11,6 @@ COPY ./shared /app/shared
 
 RUN npm install --omit=dev
 
-RUN ls /app
-
 COPY ./backend ./
 
 ENV NODE_ENV production
