@@ -1,0 +1,37 @@
+.catalog-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  cursor: grab;
+  transition: 0.2s;
+  margin-bottom: 0.5rem;
+}
+
+.catalog-item:last-child {
+  margin-bottom: 0;
+}
+
+.catalog-item:hover {
+  background: #f0f0f0;
+}
+
+.catalog-checkbox-container {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.catalog-checkbox {
+  width: 1rem;
+  height: 1rem;
+}
+
+.drag-handle {
+  margin-bottom: 0.2rem;
+}

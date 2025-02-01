@@ -1,0 +1,24 @@
+.catalog-container {
+  width: 95%;
+  text-align: center;
+  margin-top: 0.8rem;
+}
+
+.catalog-list {
+  background: #fff;
+  padding: 0.9rem;
+  border-radius: 0.5rem;
+  margin-top: 0.8rem;
+  box-shadow: 0 0 0.4rem rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 900px) {
+  .catalog-container {
+    margin-top: 0.3rem;
+  }
+
+  .catalog-list {
+    margin-top: 0.4rem;
+    padding: 0.5rem;
+  }
+}

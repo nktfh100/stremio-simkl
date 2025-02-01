@@ -1,14 +1,9 @@
 import { slugify } from "@/utils";
-
-const catalogExtra = [
-  {
-    name: "skip",
-    isRequired: false,
-  },
-];
+import { CatalogType, allCatalogs, catalogsData } from "shared/catalogs";
 
 export default function generateManifest(
   user: string,
+  selectedCatalogs: CatalogType[] | undefined,
   configured: boolean = true,
 ) {
   let description = `Unofficial addon to display your Simkl Watchlists in Stremio, by @nktfh100`;
@@ -26,45 +21,17 @@ export default function generateManifest(
   if (configured) {
     id += "." + slugify(user);
   }
+  const catalogs = (selectedCatalogs || allCatalogs)
+    .map((catalog) => catalogsData[catalog])
+    .filter((catalog) => !!catalog);
 
   return {
     id,
-    version: "0.2.2",
+    version: "0.2.3",
     name: "Simkl Watchlists",
     description,
     logo: "https://eu.simkl.in/img_favicon/v2/favicon-192x192.png",
-    catalogs: [
-      {
-        id: "simkl-plan-to-watch-movie",
-        type: "movie",
-        name: "SIMKL Plan To Watch",
-        extra: catalogExtra,
-      },
-      {
-        id: "simkl-completed-movie",
-        type: "movie",
-        name: "SIMKL Completed",
-        extra: catalogExtra,
-      },
-      {
-        id: "simkl-watching",
-        type: "series",
-        name: "SIMKL Watching",
-        extra: catalogExtra,
-      },
-      {
-        id: "simkl-plan-to-watch-series",
-        type: "series",
-        name: "SIMKL Plan To Watch",
-        extra: catalogExtra,
-      },
-      {
-        id: "simkl-completed-series",
-        type: "series",
-        name: "SIMKL Completed",
-        extra: catalogExtra,
-      },
-    ],
+    catalogs,
     resources: ["catalog"],
     types: ["movie", "series"],
     behaviorHints: {

@@ -7,66 +7,68 @@ import { Ring } from "@uiball/loaders";
 import LinkBtn from "../LinkBtn/LinkBtn";
 
 export default function GenerateLink() {
-	const simklCode = useAppStore((state) => state.code);
-	const installLink = useAppStore((state) => state.installLink);
-	const [isLinkLoading, setIsLinkLoading] = useState(false);
+  const simklCode = useAppStore((state) => state.code);
+  const installLink = useAppStore((state) => state.installLink);
+  const selectedCatalogs = useAppStore((state) => state.selectedCatalogs);
+  const [isLinkLoading, setIsLinkLoading] = useState(false);
 
-	const handleGenLinkBtn = async () => {
-		if (installLink || isLinkLoading) {
-			return;
-		}
+  const handleGenLinkBtn = async () => {
+    if (installLink || isLinkLoading) {
+      return;
+    }
 
-		try {
-			setIsLinkLoading(true);
-			const response = await fetch(
-				`${import.meta.env.VITE_BACKEND_URL}/gen-link`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						code: simklCode,
-					}),
-				}
-			);
-			const data = await response.json();
+    try {
+      setIsLinkLoading(true);
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/gen-link`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            code: simklCode,
+            selectedCatalogs,
+          }),
+        },
+      );
+      const data = await response.json();
 
-			setIsLinkLoading(false);
+      setIsLinkLoading(false);
 
-			if (data.error || !data.link) {
-				alert(
-					data.error
-						? "Error: " + data.error
-						: "Unknown error generating install link"
-				);
-				console.error(data.error);
-				setSimklAuthCode(undefined);
-				removeUrlParam("code");
-				return;
-			}
+      if (data.error || !data.link) {
+        alert(
+          data.error
+            ? "Error: " + data.error
+            : "Unknown error generating install link",
+        );
+        console.error(data.error);
+        setSimklAuthCode(undefined);
+        removeUrlParam("code");
+        return;
+      }
 
-			setInstallLink(data.link);
-		} catch (err) {
-			console.error(err);
-			setIsLinkLoading(false);
-			alert("Could not reach backend server, please try again later.");
-		}
-	};
+      setInstallLink(data.link);
+    } catch (err) {
+      console.error(err);
+      setIsLinkLoading(false);
+      alert("Could not reach backend server, please try again later.");
+    }
+  };
 
-	return (
-		<LinkBtn onClick={handleGenLinkBtn}>
-			{isLinkLoading ? (
-				<span
-					style={{
-						display: "flex", // For some reason the loader has extra height without this
-					}}
-				>
-					<Ring color="white" size={26} />
-				</span>
-			) : (
-				"Generate Install Link"
-			)}
-		</LinkBtn>
-	);
+  return (
+    <LinkBtn onClick={handleGenLinkBtn}>
+      {isLinkLoading ? (
+        <span
+          style={{
+            display: "flex", // For some reason the loader has extra height without this
+          }}
+        >
+          <Ring color="white" size={26} />
+        </span>
+      ) : (
+        "Generate Install Link"
+      )}
+    </LinkBtn>
+  );
 }
