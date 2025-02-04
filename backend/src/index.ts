@@ -9,6 +9,7 @@ import registerGenerateLinkRoute from "@/routes/generateLink";
 import registerManifestRoute from "@/routes/manifest";
 
 import registerConfigureRoute from "./routes/configure";
+import { initMetrics, metricsEndpoint, metricsMiddleware } from "./metrics";
 
 // import { publishToCentral } from "stremio-addon-sdk";
 
@@ -23,12 +24,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-	res.redirect(process.env.FRONTEND_URL!);
+if (process.env.ENABLE_METRICS) {
+  initMetrics();
+  app.use(metricsMiddleware);
+  app.get("/metrics", metricsEndpoint);
+}
+
+app.get("/", (_req, res) => {
+  res.redirect(process.env.FRONTEND_URL!);
 });
 
-app.get("/health", (req, res) => {
-	res.send("OK");
+app.get("/health", (_req, res) => {
+  res.send("OK");
 });
 
 registerManifestRoute(app);
@@ -37,19 +44,19 @@ registerGenerateLinkRoute(app);
 registerCatalogRoute(app);
 
 app.listen(PORT, async () => {
-	console.log(`Server listening on port ${PORT}`);
-	if (!process.env.DISABLE_REDIS) {
-		connectToRedis();
-	}
+  console.log(`Server listening on port ${PORT}`);
+  if (!process.env.DISABLE_REDIS) {
+    connectToRedis();
+  }
 
-	// if (process.env.NODE_ENV == "production") {
-	// console.log("Publishing to central...");
-	// try {
-	// 	publishToCentral(
-	// 		`https://${process.env.BACKEND_HOST}/manifest.json`
-	// 	);
-	// } catch (error) {
-	// 	console.error("Failed to publish to central", error);
-	// }
-	// }
+  // if (process.env.NODE_ENV == "production") {
+  // console.log("Publishing to central...");
+  // try {
+  // 	publishToCentral(
+  // 		`https://${process.env.BACKEND_HOST}/manifest.json`
+  // 	);
+  // } catch (error) {
+  // 	console.error("Failed to publish to central", error);
+  // }
+  // }
 });
