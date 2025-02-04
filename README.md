@@ -34,6 +34,7 @@ The user configuration for the addon (Simkl user token) is encrypted using aes-1
 - Node.js
 - Express
 - Redis (for caching)
+- Prometheus (for metrics) 
 
 ### Frontend
 
