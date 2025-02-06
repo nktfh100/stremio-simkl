@@ -33,6 +33,10 @@ export const metricsEndpoint: RequestHandler = async (_req, res) => {
 export const metricsMiddleware: RequestHandler = (req, res, next) => {
   const end = httpRequestDurationMicroseconds.startTimer();
   res.on("finish", () => {
+    if (!req.route) {
+      return;
+    }
+
     end({
       route: req.route.path,
       code: res.statusCode,
