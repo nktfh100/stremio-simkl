@@ -1,4 +1,5 @@
 import { decryptConfig } from "@/encryption";
+import { getConfig } from "@/lib/config";
 import { generateRPDBPosterUrl, mediaHasRPDBPoster } from "@/rpdb";
 import { getSimklUserWatchList } from "@/simkl";
 import { getTMDBMovieMeta, getTMDBShowMeta } from "@/tmdb";
@@ -135,7 +136,7 @@ export const generateCatalog = async (
     const genres = tmdbMeta ? tmdbMeta.genres.map((genre) => genre.name) : [];
 
     const posterUrl =
-      process.env.USE_RPDB && mediaHasRPDBPoster(stremioType, tmdbMeta)
+      getConfig().rpdb.enabled && mediaHasRPDBPoster(stremioType, tmdbMeta)
         ? generateRPDBPosterUrl(itemMeta.ids.imdb)
         : generatePosterUrl(itemMeta.poster);
 

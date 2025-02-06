@@ -1,10 +1,6 @@
 import crypto from "crypto";
-import {
-  CatalogType,
-  allCatalogs,
-  catalogToInt,
-  defaultCatalogs,
-} from "shared/catalogs";
+import { CatalogType, allCatalogs, catalogToInt } from "shared/catalogs";
+import { getConfig } from "./lib/config";
 
 const algorithm = "aes-192-cbc";
 let key: Buffer;
@@ -20,8 +16,9 @@ type EncryptedConfig = {
 };
 
 export function initEncryption() {
-  const envKey = process.env.ENCRYPTION_KEY;
-  const envSalt = process.env.ENCRYPTION_SALT;
+  const envKey = getConfig().encryption.key;
+  const envSalt = getConfig().encryption.salt;
+
   if (!envKey || !envSalt) {
     throw new Error("Encryption key or salt not found!");
   }

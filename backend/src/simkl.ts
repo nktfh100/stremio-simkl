@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { SimklHistoryResponse } from "@/types";
+import { getConfig } from "./lib/config";
 
 const SIMKL_API = "https://api.simkl.com";
 
@@ -8,7 +9,7 @@ async function simklApiGetRequest(url: string, token?: string) {
   try {
     return await axios.get(`${SIMKL_API}/${url}`, {
       headers: {
-        "simkl-api-key": process.env.SIMKL_CLIENT_ID,
+        "simkl-api-key": getConfig().simkl.clientId,
         Authorization: token ? `Bearer ${token}` : "",
       },
     });
@@ -26,7 +27,7 @@ async function simklApiPostRequest(url: string, data: any, token?: string) {
     return await axios.post(`${SIMKL_API}/${url}`, data, {
       headers: {
         "Content-Type": "application/json",
-        "simkl-api-key": process.env.SIMKL_CLIENT_ID,
+        "simkl-api-key": getConfig().simkl.clientId,
         Authorization: token ? `Bearer ${token}` : "",
       },
     });
@@ -45,8 +46,8 @@ export async function getSimklAccessToken(
   const result = await simklApiPostRequest("oauth/token", {
     grant_type: "authorization_code",
     code,
-    client_id: process.env.SIMKL_CLIENT_ID,
-    client_secret: process.env.SIMKL_CLIENT_SECRET,
+    client_id: getConfig().simkl.clientId,
+    client_secret: getConfig().simkl.clientSecret,
     redirect_uri: "http://localhost:5173",
   });
 
