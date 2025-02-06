@@ -3,6 +3,7 @@ import { Express } from "express";
 import { generateEncryptedConfig } from "@/encryption";
 import { getSimklAccessToken } from "@/simkl";
 import { validateCatalogs } from "@/utils";
+import { getConfig } from "@/lib/config";
 
 export default async function registerGenerateLinkRoute(app: Express) {
   app.post("/gen-link", async (req, res) => {
@@ -26,7 +27,7 @@ export default async function registerGenerateLinkRoute(app: Express) {
     );
 
     res.send({
-      link: `stremio://${process.env.BACKEND_HOST}/${encryptedConfig}/manifest.json`,
+      link: `stremio://${getConfig().backendHost}/${encryptedConfig}/manifest.json`,
     });
 
     console.log(`Generated install link`);

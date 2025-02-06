@@ -1,9 +1,10 @@
 import * as Sentry from "@sentry/node";
 import { Express } from "express";
+import { getConfig } from "./lib/config";
 
 export const initSentry = () => {
   Sentry.init({
-    dsn: process.env.SENTRY_DSN,
+    dsn: getConfig().sentry.dsn,
     integrations: [
       Sentry.consoleIntegration(),
       Sentry.captureConsoleIntegration(),

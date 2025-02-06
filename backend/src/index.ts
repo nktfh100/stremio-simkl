@@ -1,5 +1,4 @@
 import cors from "cors";
-import dotenv from "dotenv";
 import express from "express";
 
 import { connectToRedis } from "@/cache";
@@ -13,30 +12,29 @@ import { initMetrics, metricsEndpoint, metricsMiddleware } from "./metrics";
 
 // import { publishToCentral } from "stremio-addon-sdk";
 import { initSentry, setupSentryRequestHandler } from "./sentry";
+import { getConfig } from "./lib/config";
 
-dotenv.config();
+const config = getConfig();
 
-if (process.env.ENABLE_SENTRY) {
+if (config.sentry.enabled) {
   initSentry();
 }
 
 initEncryption();
-
-const PORT = parseInt(process.env.PORT || "43001");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-if (process.env.ENABLE_METRICS) {
+if (config.enableMetrics) {
   initMetrics();
   app.use(metricsMiddleware);
   app.get("/metrics", metricsEndpoint);
 }
 
 app.get("/", (_req, res) => {
-  res.redirect(process.env.FRONTEND_URL!);
+  res.redirect(config.frontendUrl);
 });
 
 app.get("/health", (_req, res) => {
@@ -48,13 +46,13 @@ registerConfigureRoute(app);
 registerGenerateLinkRoute(app);
 registerCatalogRoute(app);
 
-if (process.env.ENABLE_SENTRY) {
+if (config.sentry.enabled) {
   setupSentryRequestHandler(app);
 }
 
-app.listen(PORT, async () => {
-  console.log(`Server listening on port ${PORT}`);
-  if (!process.env.DISABLE_REDIS) {
+app.listen(config.port, async () => {
+  console.log(`Server listening on port ${config.port}`);
+  if (config.redis.enabled) {
     connectToRedis();
   }
 

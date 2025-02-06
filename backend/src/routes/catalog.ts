@@ -1,10 +1,11 @@
 import { Express, Response } from "express";
 
 import { generateCatalog } from "@/controllers/catalogController";
+import { getConfig } from "@/lib/config";
 
 // Cache for 5 minute
 const setCacheControl = (res: Response) => {
-  if (process.env.NODE_ENV == "production") {
+  if (getConfig().env) {
     res.set("Cache-Control", `public, max-age=${60 * 5}`);
   }
 };
