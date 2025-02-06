@@ -12,8 +12,13 @@ import registerConfigureRoute from "./routes/configure";
 import { initMetrics, metricsEndpoint, metricsMiddleware } from "./metrics";
 
 // import { publishToCentral } from "stremio-addon-sdk";
+import { initSentry } from "./sentry";
 
 dotenv.config();
+
+if (process.env.ENABLE_SENTRY) {
+  initSentry();
+}
 
 initEncryption();
 
