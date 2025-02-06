@@ -34,14 +34,14 @@ export const metricsMiddleware: RequestHandler = (req, res, next) => {
   const end = httpRequestDurationMicroseconds.startTimer();
   res.on("finish", () => {
     end({
-      route: req.route ? req.route.path : req.url,
+      route: req.route.path,
       code: res.statusCode,
       method: req.method,
     });
 
     httpRequestCounter.inc({
       method: req.method,
-      route: req.route ? req.route.path : req.url,
+      route: req.route.path,
       code: res.statusCode,
     });
   });
