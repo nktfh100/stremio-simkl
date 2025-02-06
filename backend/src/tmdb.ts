@@ -7,6 +7,13 @@ import { getConfig } from "./lib/config";
 
 const TMDB_API = "https://api.themoviedb.org/3";
 
+const tmdbAxios = axios.create({
+  baseURL: TMDB_API,
+  headers: {
+    Authorization: `Bearer ${getConfig().tmdbApiKey}`,
+  },
+});
+
 export async function getTMDBMovieMeta(
   tmdbId: string,
 ): Promise<CleanedTMDBMovie | null> {
@@ -14,11 +21,7 @@ export async function getTMDBMovieMeta(
     const cached = await getCachedTMDBMovieMeta(tmdbId);
     if (cached) return cached;
 
-    const result = await axios.get(`${TMDB_API}/movie/${tmdbId}`, {
-      headers: {
-        Authorization: `Bearer ${getConfig().tmdbApiKey}`,
-      },
-    });
+    const result = await tmdbAxios.get(`/movie/${tmdbId}`);
 
     const cleanedMeta = cleanTMDBMovieMeta(result.data);
 
@@ -41,11 +44,7 @@ export async function getTMDBShowMeta(
     const cached = await getCachedTMDBShowMeta(tmdbId);
     if (cached) return cached;
 
-    const result = await axios.get(`${TMDB_API}/tv/${tmdbId}`, {
-      headers: {
-        Authorization: `Bearer ${getConfig().tmdbApiKey}`,
-      },
-    });
+    const result = await tmdbAxios.get(`/tv/${tmdbId}`);
 
     const cleanedMeta = cleanTMDBShowMeta(result.data);
 
