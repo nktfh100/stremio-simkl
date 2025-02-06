@@ -12,7 +12,7 @@ import registerConfigureRoute from "./routes/configure";
 import { initMetrics, metricsEndpoint, metricsMiddleware } from "./metrics";
 
 // import { publishToCentral } from "stremio-addon-sdk";
-import { initSentry } from "./sentry";
+import { initSentry, setupSentryRequestHandler } from "./sentry";
 
 dotenv.config();
 
@@ -47,6 +47,10 @@ registerManifestRoute(app);
 registerConfigureRoute(app);
 registerGenerateLinkRoute(app);
 registerCatalogRoute(app);
+
+if (process.env.ENABLE_SENTRY) {
+  setupSentryRequestHandler(app);
+}
 
 app.listen(PORT, async () => {
   console.log(`Server listening on port ${PORT}`);
