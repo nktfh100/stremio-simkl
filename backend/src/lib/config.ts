@@ -59,7 +59,7 @@ export const loadConfig = (): Config => {
       dsn: process.env.SENTRY_DSN || "",
     },
     rpdb: {
-      enabled: process.env.RPDB_ENABLED === "true",
+      enabled: process.env.USE_RPDB === "true",
       apiKey: process.env.RPDB_API_KEY || "",
     },
     env: process.env.NODE_ENV || "development",
