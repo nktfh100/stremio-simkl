@@ -5,6 +5,7 @@ import {
   TMDBShowResponse,
 } from "@/types";
 import { CatalogType, allCatalogs, defaultCatalogs } from "shared/catalogs";
+import { StremioMediaType } from "./lib/mediaTypes";
 
 const simklCacheUrl = "https://wsrv.nl/?url=https://simkl.in";
 export function generatePosterUrl(poster: string): string {
@@ -25,12 +26,12 @@ export function slugify(str: string | undefined): string {
 }
 
 export function createReleaseInfo(
-  type: "movie" | "series",
+  mediaType: StremioMediaType,
   tmdbMeta: CleanedTMDBMovie | CleanedTMDBShow | null,
 ): string {
   if (!tmdbMeta) return "";
 
-  if (type === "movie") {
+  if (mediaType === StremioMediaType.Movie) {
     return extractYear((tmdbMeta as CleanedTMDBMovie).release_date);
   }
 

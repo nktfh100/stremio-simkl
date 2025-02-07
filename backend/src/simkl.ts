@@ -2,6 +2,7 @@ import axios from "axios";
 
 import { SimklHistoryResponse } from "@/types";
 import { getConfig } from "./lib/config";
+import { SimklMediaType } from "./lib/mediaTypes";
 
 const SIMKL_API = "https://api.simkl.com";
 
@@ -58,7 +59,7 @@ export async function getSimklAccessToken(
 
 export async function getSimklUserWatchList(
   token: string,
-  type: "movies" | "shows",
+  type: SimklMediaType,
   status: "watching" | "plantowatch" | "hold" | "completed" | "dropped",
 ): Promise<SimklHistoryResponse | null> {
   const result = await simklApiGetRequest(

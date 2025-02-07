@@ -1,5 +1,9 @@
 import { decryptConfig } from "@/encryption";
 import { getConfig } from "@/lib/config";
+import {
+  StremioMediaType,
+  convertStremioMediaTypeToSimkl,
+} from "@/lib/mediaTypes";
 import { generateRPDBPosterUrl, mediaHasRPDBPoster } from "@/rpdb";
 import { getSimklUserWatchList } from "@/simkl";
 import { getTMDBMovieMeta, getTMDBShowMeta } from "@/tmdb";
@@ -8,7 +12,7 @@ import { createReleaseInfo, generatePosterUrl } from "@/utils";
 
 export type SimklCatalogItem = {
   id: string;
-  type: "movie" | "series";
+  type: StremioMediaType;
   name: string;
   poster: string;
   description: string;
@@ -23,7 +27,7 @@ export type SimklCatalogItem = {
 
 export const generateCatalog = async (
   config: string,
-  mediaType: string,
+  stremioMediaType: StremioMediaType,
   catalogName: string,
   skip: number,
   maxItems: number,
@@ -43,8 +47,13 @@ export const generateCatalog = async (
     };
   }
 
-  const stremioType = mediaType as "series" | "movie";
-  const simklType = stremioType == "series" ? "shows" : "movies";
+  const simklMediaType = convertStremioMediaTypeToSimkl(stremioMediaType);
+  if (!simklMediaType) {
+    return {
+      status: 400,
+      error: "Invalid media type",
+    };
+  }
 
   const listType = (() => {
     switch (catalogName.split("-")[1]) {
@@ -61,7 +70,7 @@ export const generateCatalog = async (
 
   const userHistory = await getSimklUserWatchList(
     decryptedConfig.simklToken,
-    simklType,
+    simklMediaType,
     listType,
   );
 
@@ -72,7 +81,7 @@ export const generateCatalog = async (
     };
   }
 
-  let items = userHistory[simklType];
+  let items = userHistory[simklMediaType];
   if (!items || items.length == 0) {
     return [];
   }
@@ -107,7 +116,7 @@ export const generateCatalog = async (
 
     // Dont display shows that the user finished watching
     if (
-      stremioType == "series" &&
+      stremioMediaType == StremioMediaType.Series &&
       listType == "watching" &&
       simklItem.watched_episodes_count != 0 &&
       !(simklItem as SimklShow).next_to_watch
@@ -116,12 +125,12 @@ export const generateCatalog = async (
     }
 
     const tmdbMeta =
-      stremioType == "series"
+      stremioMediaType == StremioMediaType.Series
         ? await getTMDBShowMeta(itemMeta.ids.tmdb)
         : await getTMDBMovieMeta(itemMeta.ids.tmdb);
 
     const showNextEpisodeText =
-      stremioType == "series" &&
+      stremioMediaType == StremioMediaType.Series &&
       listType == "watching" &&
       (simklItem as SimklShow).next_to_watch;
     const nextEpisodeDescription = showNextEpisodeText
@@ -136,13 +145,13 @@ export const generateCatalog = async (
     const genres = tmdbMeta ? tmdbMeta.genres.map((genre) => genre.name) : [];
 
     const posterUrl =
-      getConfig().rpdb.enabled && mediaHasRPDBPoster(stremioType, tmdbMeta)
+      getConfig().rpdb.enabled && mediaHasRPDBPoster(stremioMediaType, tmdbMeta)
         ? generateRPDBPosterUrl(itemMeta.ids.imdb)
         : generatePosterUrl(itemMeta.poster);
 
     stremioItems.push({
       id: itemMeta.ids.imdb,
-      type: stremioType,
+      type: stremioMediaType,
       name: itemMeta.title,
       poster: posterUrl,
       description,
@@ -150,13 +159,13 @@ export const generateCatalog = async (
         {
           name: "Simkl",
           category: "Simkl",
-          url: `https://simkl.com/${stremioType == "movie" ? "movies" : "tv"}/${
+          url: `https://simkl.com/${stremioMediaType == StremioMediaType.Movie ? "movies" : "tv"}/${
             itemMeta.ids.simkl
           }`,
         },
       ],
       genres,
-      releaseInfo: createReleaseInfo(stremioType, tmdbMeta),
+      releaseInfo: createReleaseInfo(stremioMediaType, tmdbMeta),
     });
   }
 
