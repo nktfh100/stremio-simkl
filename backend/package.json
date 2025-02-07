@@ -1,7 +1,6 @@
 {
-	"name": "stremio-addon-stremiosimklsync",
+	"name": "stremio-simkl-backend",
 	"version": "0.0.0",
-	"description": "Sync Simkl watchlist to Stremio",
 	"scripts": {
 		"dev": "npx nodemon ./src/index.ts",
 		"start": "ts-node --transpile-only src/index.ts"

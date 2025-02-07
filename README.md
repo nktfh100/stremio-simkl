@@ -3,7 +3,7 @@ Stremio addon to display your Simkl Watchlists.
 
 ## Install addon
 
-[Configure addon](https://stremio-simkl.malachi.io)
+[Install addon](https://stremio-simkl.malachi.io)
 
 
 ## Development
@@ -14,11 +14,35 @@ You will need a redis server running, A TMDB API key, RPDB API key (optional) an
 
 To create a Simkl app: [Simkl Developer Settings](https://simkl.com/settings/developer/).
 
-Start the redis server using the provided docker compose file: `docker compose -f docker-compose-dev.yaml up -d`.
+Run `npm run install` to install both the frontend and backend.
 
-Run `npm install` inside both folders.
+Run `npm run dev` to start the redis server, frontend and backend.
 
-And to start run `npm run dev` to start each service in development mode.
+## Development
+
+1. Create `.env` files inside the `backend` and `frontend` folders based on the `.env.example` files.
+
+2. You will need a TMDB API key, an RPDB API key (optional), and a Simkl app.
+
+   - To create a Simkl app, visit: [Simkl Developer Settings](https://simkl.com/settings/developer/).
+
+3. Install dependencies for both the frontend and backend:
+
+   ```sh
+   npm run install
+   ```
+
+4. Start the development environment, which includes the Redis server, frontend, and backend:
+
+   ```sh
+   npm run dev
+   ```
+
+This will run the following commands concurrently:
+- `start:redis`: Starts the Redis server using Docker Compose.
+- `dev:frontend`: Starts the frontend development server.
+- `dev:backend`: Starts the backend development server.
+
 
 
 ## Tech Stack
@@ -34,7 +58,7 @@ The user configuration for the addon (Simkl user token) is encrypted using aes-1
 - Node.js
 - Express
 - Redis (for caching)
-- Prometheus (for metrics) 
+- Prometheus (for metrics)
 
 ### Frontend
 

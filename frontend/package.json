@@ -1,5 +1,5 @@
 {
-  "name": "stremio-addon-stremiosimklsync-frontend",
+  "name": "stremio-simkl-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
