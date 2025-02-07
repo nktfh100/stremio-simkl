@@ -1,0 +1,20 @@
+{
+  "name": "stremio-simkl",
+  "version": "0.0.0",
+  "description": "Stremio addon to display your Simkl Watchlists",
+  "main": "index.js",
+  "scripts": {
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "install": "concurrently \"npm run install:frontend\" \"npm run install:backend\"",
+    "start:redis": "docker compose -f docker-compose-dev.yaml up -d",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run start:redis\" \"npm run dev:frontend\" \"npm run dev:backend\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
