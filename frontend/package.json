@@ -18,7 +18,7 @@
     "react-dnd-multi-backend": "^9.0.0",
     "react-dom": "^18.2.0",
     "react-wrap-balancer": "^1.1.0",
-    "sass": "^1.69.5",
+    "sass": "^1.85.1",
     "shared": "file:../shared",
     "zustand": "^4.4.7"
   },
