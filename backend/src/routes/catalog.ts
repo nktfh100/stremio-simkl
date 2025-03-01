@@ -6,7 +6,7 @@ import { StremioMediaType, validateStremioMediaType } from "@/lib/mediaTypes";
 
 // Cache for 5 minute
 const setCacheControl = (res: Response) => {
-  if (getConfig().env) {
+  if (getConfig().env === "production") {
     res.set("Cache-Control", `public, max-age=${60 * 5}`);
   }
 };
