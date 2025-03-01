@@ -4,6 +4,7 @@ import getClient from "@/cache";
 import { CleanedTMDBMovie, CleanedTMDBShow } from "@/types";
 import { cleanTMDBMovieMeta, cleanTMDBShowMeta } from "@/utils";
 import { getConfig } from "./lib/config";
+import { StremioMediaType } from "./lib/mediaTypes";
 
 const TMDB_API = "https://api.themoviedb.org/3";
 
@@ -13,6 +14,21 @@ const tmdbAxios = axios.create({
     Authorization: `Bearer ${getConfig().tmdbApiKey}`,
   },
 });
+
+export async function getTMDBMeta(
+  tmdbId: string,
+  type: StremioMediaType,
+): Promise<CleanedTMDBMovie | CleanedTMDBShow | null> {
+  switch (type) {
+    case StremioMediaType.Series:
+    case String(StremioMediaType.Anime):
+      return getTMDBShowMeta(tmdbId);
+    case StremioMediaType.Movie:
+      return getTMDBMovieMeta(tmdbId);
+    default:
+      return null;
+  }
+}
 
 export async function getTMDBMovieMeta(
   tmdbId: string,

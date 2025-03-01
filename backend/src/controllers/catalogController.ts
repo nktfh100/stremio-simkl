@@ -6,7 +6,7 @@ import {
 } from "@/lib/mediaTypes";
 import { generateRPDBPosterUrl, mediaHasRPDBPoster } from "@/rpdb";
 import { getSimklUserWatchList } from "@/simkl";
-import { getTMDBMovieMeta, getTMDBShowMeta } from "@/tmdb";
+import { getTMDBMeta } from "@/tmdb";
 import { SimklMovie, SimklShow } from "@/types";
 import { createReleaseInfo, generatePosterUrl } from "@/utils";
 
@@ -124,13 +124,13 @@ export const generateCatalog = async (
       continue;
     }
 
-    const tmdbMeta =
-      stremioMediaType == StremioMediaType.Series
-        ? await getTMDBShowMeta(itemMeta.ids.tmdb)
-        : await getTMDBMovieMeta(itemMeta.ids.tmdb);
+    const tmdbMeta = itemMeta.ids.tmdb
+      ? await getTMDBMeta(itemMeta.ids.tmdb, stremioMediaType)
+      : null;
 
     const showNextEpisodeText =
-      stremioMediaType == StremioMediaType.Series &&
+      (stremioMediaType == StremioMediaType.Series ||
+        stremioMediaType == StremioMediaType.Anime) &&
       listType == "watching" &&
       (simklItem as SimklShow).next_to_watch;
     const nextEpisodeDescription = showNextEpisodeText
@@ -140,7 +140,12 @@ export const generateCatalog = async (
     const overview = tmdbMeta ? tmdbMeta.overview : "";
     const tmdbCredit = tmdbMeta ? "\n\nData by TMDB." : "";
 
-    const description = `${nextEpisodeDescription}${overview}${tmdbCredit}`;
+    const unsupportedText =
+      stremioMediaType == StremioMediaType.Anime && !itemMeta.ids.imdb
+        ? "This item is not supported.\nPlease add the base show to your list (season 1)."
+        : "";
+
+    const description = `${nextEpisodeDescription}${overview}${tmdbCredit}${unsupportedText}`;
 
     const genres = tmdbMeta ? tmdbMeta.genres.map((genre) => genre.name) : [];
 
@@ -151,7 +156,10 @@ export const generateCatalog = async (
 
     stremioItems.push({
       id: itemMeta.ids.imdb,
-      type: stremioMediaType,
+      type:
+        stremioMediaType == StremioMediaType.Anime
+          ? StremioMediaType.Series
+          : stremioMediaType,
       name: itemMeta.title,
       poster: posterUrl,
       description,
@@ -159,7 +167,7 @@ export const generateCatalog = async (
         {
           name: "Simkl",
           category: "Simkl",
-          url: `https://simkl.com/${stremioMediaType == StremioMediaType.Movie ? "movies" : "tv"}/${
+          url: `https://simkl.com/${stremioMediaType == StremioMediaType.Movie ? "movies" : stremioMediaType == StremioMediaType.Anime ? "anime" : "tv"}/${
             itemMeta.ids.simkl
           }`,
         },

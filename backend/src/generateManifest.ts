@@ -33,7 +33,7 @@ export default function generateManifest(
     logo: "https://eu.simkl.in/img_favicon/v2/favicon-192x192.png",
     catalogs,
     resources: ["catalog"],
-    types: ["movie", "series"],
+    types: ["movie", "series", "anime"],
     behaviorHints: {
       configurable: !configured,
       configurationRequired: !configured,
