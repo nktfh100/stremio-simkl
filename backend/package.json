@@ -6,7 +6,7 @@
 		"start": "ts-node --transpile-only src/index.ts"
 	},
 	"dependencies": {
-		"@sentry/node": "^8.54.0",
+		"@sentry/node": "^9.3.0",
 		"axios": "^1.8.1",
 		"cors": "^2.8.5",
 		"dotenv": "^16.4.7",
