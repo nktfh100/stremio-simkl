@@ -23,7 +23,7 @@ export default function App() {
           <img src="/simkl-logo.webp" alt="Simkl Logo" />
         </div>
         <h1 className={styles["title"]}>Stremio Simkl Watchlists</h1>
-        <h2 className={styles["version"]}>v0.2.5</h2>
+        <h2 className={styles["version"]}>v0.2.6</h2>
 
         <h2 className={styles["description"]}>
           <Balancer>
