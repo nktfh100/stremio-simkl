@@ -7,7 +7,7 @@ FROM node:${NODE_VERSION}-alpine
 RUN apk add --no-cache libc6-compat
 WORKDIR /app/backend
 
-COPY ./backend/package.json ./
+COPY ./backend/package*.json ./
 COPY ./shared /app/shared
 
 RUN npm ci
