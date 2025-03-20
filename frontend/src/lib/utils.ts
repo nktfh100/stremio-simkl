@@ -4,6 +4,7 @@ export function removeUrlParam(param: string) {
   window.history.replaceState({}, "", url.toString());
 }
 export const isMobileDevice = () => {
+  /* eslint-disable */
   let check = false;
   (function (a) {
     if (
@@ -16,5 +17,6 @@ export const isMobileDevice = () => {
     )
       check = true;
   })(navigator.userAgent || navigator.vendor || (window as any).opera);
+  /* eslint-enable */
   return check;
 };
