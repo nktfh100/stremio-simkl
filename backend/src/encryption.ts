@@ -63,7 +63,9 @@ export function decrypt(data: string): EncryptedConfig | string {
       ) {
         return parsed;
       }
-    } catch {}
+    } catch {
+      // Do nothing
+    }
 
     return decrypted.toString();
   } catch (error) {

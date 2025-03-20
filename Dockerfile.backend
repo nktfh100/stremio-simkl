@@ -1,4 +1,7 @@
-FROM node:20-alpine AS base
+
+ARG NODE_VERSION=22
+
+FROM node:${NODE_VERSION}-alpine as BASE
 
 # Install dependencies only when needed
 FROM base AS deps
