@@ -1,5 +1,5 @@
 import { slugify } from "@/utils";
-import { CatalogType, allCatalogs, catalogsData } from "shared/catalogs";
+import { CatalogType, allCatalogs, catalogsData } from "@shared/catalogs";
 
 export default function generateManifest(
   user: string,

@@ -1,6 +1,6 @@
 import { useDrag, useDrop } from "react-dnd";
 import styles from "./CatalogItem.module.scss";
-import { CatalogType, frontendCatalogNames } from "shared/catalogs";
+import { CatalogType, frontendCatalogNames } from "@shared/catalogs";
 import { useRef } from "react";
 import type { Identifier, XYCoord } from "dnd-core";
 import { isMobileDevice } from "@/lib/utils";

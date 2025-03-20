@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "tsx watch ./src/index.ts",
     "build": "tsc && tsc-alias",
-    "start": "tsx dist/index.js",
+    "start": "tsx ./dist/backend/src/index.js",
     "lint": "eslint src --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write \"src/**/*.{ts,js,json}\""
   },

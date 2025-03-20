@@ -1,4 +1,4 @@
-import { CatalogType } from "shared/catalogs";
+import { CatalogType } from "@shared/catalogs";
 
 export interface AppStoreState {
   code: string | undefined;

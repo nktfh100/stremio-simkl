@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { CatalogType, allCatalogs, catalogToInt } from "shared/catalogs";
+import { CatalogType, allCatalogs, catalogToInt } from "@shared/catalogs";
 import { getConfig } from "./lib/config";
 
 const algorithm = "aes-192-cbc";

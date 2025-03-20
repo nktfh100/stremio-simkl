@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 import { AppStoreState } from "@/lib/types";
-import { CatalogType } from "shared/catalogs";
+import { CatalogType } from "@shared/catalogs";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useAppStore = create<AppStoreState>()((_set) => ({

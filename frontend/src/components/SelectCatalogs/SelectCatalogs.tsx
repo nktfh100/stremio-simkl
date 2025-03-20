@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./SelectCatalogs.module.scss";
-import { CatalogType, allCatalogs } from "shared/catalogs";
+import { CatalogType, allCatalogs } from "@shared/catalogs";
 import { CatalogItem } from "./CatalogItem";
 import useAppStore, { setSelectedCatalogs } from "@/lib/appStore";
 

@@ -4,7 +4,7 @@ import {
   TMDBMovieResponse,
   TMDBShowResponse,
 } from "@/types";
-import { CatalogType, allCatalogs, defaultCatalogs } from "shared/catalogs";
+import { CatalogType, allCatalogs, defaultCatalogs } from "@shared/catalogs";
 import { StremioMediaType } from "./lib/mediaTypes";
 
 const simklCacheUrl = "https://wsrv.nl/?url=https://simkl.in";
