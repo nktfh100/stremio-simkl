@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.{ts,js,json}\""
   },
   "dependencies": {
-    "@sentry/node": "^8.54.0",
+    "@sentry/node": "^9.7.0",
     "axios": "^1.8.4",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
