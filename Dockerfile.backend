@@ -1,10 +1,8 @@
 
 ARG NODE_VERSION=22
 
-FROM node:${NODE_VERSION}-alpine as BASE
+FROM node:${NODE_VERSION}-alpine
 
-# Install dependencies only when needed
-FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /app/backend
@@ -12,9 +10,11 @@ WORKDIR /app/backend
 COPY ./backend/package.json ./
 COPY ./shared /app/shared
 
-RUN npm install --omit=dev
+RUN npm ci
 
 COPY ./backend ./
+
+RUN npm run build
 
 ENV NODE_ENV production
 
