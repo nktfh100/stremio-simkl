@@ -6,7 +6,7 @@
     "dev": "tsx watch ./src/index.ts",
     "build": "tsc && tsc-alias",
     "start": "tsx dist/index.js",
-    "lint": "eslint src --ext .ts --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint src --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write \"src/**/*.{ts,js,json}\""
   },
   "dependencies": {
