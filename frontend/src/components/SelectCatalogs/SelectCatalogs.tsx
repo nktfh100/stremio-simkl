@@ -1,29 +1,40 @@
 import { useState } from "react";
 import styles from "./SelectCatalogs.module.scss";
-import { CatalogType, allCatalogs } from "@shared/catalogs";
+import { CatalogType, allCatalogs, defaultCatalogs } from "@shared/catalogs";
 import { CatalogItem } from "./CatalogItem";
-import useAppStore, { setSelectedCatalogs } from "@/lib/appStore";
+import { setSelectedCatalogs } from "@/lib/appStore";
 
 import { DndProvider } from "react-dnd-multi-backend";
 import { HTML5toTouch } from "rdndmb-html5-to-touch";
 
 export const SelectCatalogs = () => {
-  const selected = useAppStore((state) => state.selectedCatalogs);
-  const [orderedCatalogs, setOrderedCatalogs] = useState(allCatalogs);
+  const [orderedCatalogs, setOrderedCatalogs] = useState(
+    allCatalogs.map((c) => ({
+      name: c,
+      selected: defaultCatalogs.includes(c),
+    })),
+  );
 
   const toggleSelect = (catalog: CatalogType) => {
-    const isSelected = selected.includes(catalog);
-    const newSelected = isSelected
-      ? selected.filter((id) => id !== catalog)
-      : [...selected, catalog];
-    setSelectedCatalogs(newSelected);
+    const newOrderedCatalogs = orderedCatalogs.map((c) =>
+      c.name === catalog ? { ...c, selected: !c.selected } : c,
+    );
+
+    setOrderedCatalogs(newOrderedCatalogs);
+    setSelectedCatalogs(
+      newOrderedCatalogs.filter((c) => c.selected).map((c) => c.name),
+    );
   };
 
   const moveCatalog = (fromIndex: number, toIndex: number) => {
     const updatedCatalogs = [...orderedCatalogs];
     const [movedItem] = updatedCatalogs.splice(fromIndex, 1);
     updatedCatalogs.splice(toIndex, 0, movedItem);
+
     setOrderedCatalogs(updatedCatalogs);
+    setSelectedCatalogs(
+      updatedCatalogs.filter((c) => c.selected).map((c) => c.name),
+    );
   };
 
   return (
@@ -32,14 +43,14 @@ export const SelectCatalogs = () => {
 
       <div className={styles["catalog-list"]}>
         <DndProvider options={HTML5toTouch}>
-          {orderedCatalogs.map((catalog, index) => (
+          {orderedCatalogs.map(({ name, selected }, index) => (
             <CatalogItem
-              key={catalog}
-              catalog={catalog}
+              key={name}
+              catalog={name}
               index={index}
               moveCatalog={moveCatalog}
               toggleSelect={toggleSelect}
-              isSelected={selected.includes(catalog)}
+              isSelected={selected}
             />
           ))}
         </DndProvider>
