@@ -9,6 +9,30 @@ import { getSimklUserWatchList } from "@/simkl";
 import { getTMDBMeta } from "@/tmdb";
 import { SimklMovie, SimklShow } from "@/types";
 import { createReleaseInfo, generatePosterUrl } from "@/utils";
+import { SortOption } from "@shared/catalogs";
+
+type SimklItem = SimklMovie | SimklShow;
+
+const getItemMeta = (item: SimklItem) =>
+  (item as SimklMovie).movie || (item as SimklShow).show;
+
+const toTimestamp = (date: null | string) =>
+  date ? new Date(date).getTime() : 0;
+
+const sortComparators: Record<
+  SortOption,
+  (a: SimklItem, b: SimklItem) => number
+> = {
+  [SortOption.RECENTLY_ADDED]: (a, b) =>
+    toTimestamp(b.added_to_watchlist_at) - toTimestamp(a.added_to_watchlist_at),
+  [SortOption.LAST_WATCHED]: (a, b) =>
+    toTimestamp(b.last_watched_at) - toTimestamp(a.last_watched_at),
+  [SortOption.MY_RATING]: (a, b) => (b.user_rating || 0) - (a.user_rating || 0),
+  [SortOption.YEAR]: (a, b) =>
+    (getItemMeta(b)?.year || 0) - (getItemMeta(a)?.year || 0),
+  [SortOption.TITLE]: (a, b) =>
+    (getItemMeta(a)?.title || "").localeCompare(getItemMeta(b)?.title || ""),
+};
 
 export type SimklCatalogItem = {
   id: string;
@@ -31,6 +55,7 @@ export const generateCatalog = async (
   catalogName: string,
   skip: number,
   maxItems: number,
+  sort: SortOption | null,
 ): Promise<
   | SimklCatalogItem[]
   | {
@@ -81,28 +106,17 @@ export const generateCatalog = async (
     };
   }
 
-  let items = userHistory[simklMediaType];
-  if (!items || items.length == 0) {
+  let items: SimklItem[] = userHistory[simklMediaType] || [];
+  if (items.length == 0) {
     return [];
   }
 
   const stremioItems: SimklCatalogItem[] = [];
 
-  if (listType == "plantowatch") {
-    items.sort((a, b) => {
-      const yearA =
-        (a as SimklShow).show?.year || (a as SimklMovie).movie?.year || 0;
-      const yearB =
-        (b as SimklShow).show?.year || (b as SimklMovie).movie?.year || 0;
-      return yearB - yearA;
-    });
-  } else {
-    items.sort(
-      (a, b) =>
-        new Date(b.last_watched_at!).getTime() -
-        new Date(a.last_watched_at!).getTime(),
-    );
-  }
+  const defaultSort =
+    listType == "plantowatch" ? SortOption.YEAR : SortOption.LAST_WATCHED;
+
+  items.sort(sortComparators[sort || defaultSort]);
 
   // Skip items
   items = items.slice(skip);

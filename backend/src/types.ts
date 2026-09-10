@@ -142,7 +142,8 @@ export interface SimklMeta {
 }
 
 export interface SimklShow {
-  last_watched_at: string;
+  added_to_watchlist_at: null | string;
+  last_watched_at: null | string;
   status: string;
   user_rating: null | number;
   last_watched: string;
@@ -154,6 +155,7 @@ export interface SimklShow {
 }
 
 export interface SimklMovie {
+  added_to_watchlist_at: null | string;
   last_watched_at: null | string;
   status: string;
   user_rating: null | number;

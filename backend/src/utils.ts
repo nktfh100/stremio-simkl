@@ -4,7 +4,13 @@ import {
   TMDBMovieResponse,
   TMDBShowResponse,
 } from "@/types";
-import { CatalogType, allCatalogs, defaultCatalogs } from "@shared/catalogs";
+import {
+  CatalogType,
+  SortOption,
+  allCatalogs,
+  allSortOptions,
+  defaultCatalogs,
+} from "@shared/catalogs";
 import { StremioMediaType } from "./lib/mediaTypes";
 
 const simklCacheUrl = "https://wsrv.nl/?url=https://simkl.in";
@@ -90,4 +96,8 @@ export function validateCatalogs(
   return catalogs.filter((catalog) =>
     allCatalogs.includes(catalog as any),
   ) as CatalogType[];
+}
+
+export function parseSortOption(sort: string | null): SortOption | null {
+  return allSortOptions.find((option) => option === sort) ?? null;
 }
