@@ -79,7 +79,7 @@ export async function getSimklUserWatchList(
 
 	if (!result) return null;
 
-	return result.data;
+	return result.data ?? {};
 }
 
 export async function getSimklUsername(token: string) {

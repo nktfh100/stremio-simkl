@@ -4,6 +4,15 @@ export enum SimklMediaType {
 	Anime = 'anime',
 }
 
+export enum SimklAnimeType {
+	TV = 'tv',
+	Movie = 'movie',
+	Special = 'special',
+	OVA = 'ova',
+	ONA = 'ona',
+	MusicVideo = 'music video',
+}
+
 export enum StremioMediaType {
 	Movie = 'movie',
 	Series = 'series',

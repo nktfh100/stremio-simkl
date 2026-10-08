@@ -1,3 +1,5 @@
+import type { SimklAnimeType } from './lib/mediaTypes';
+
 export interface TMDBMovieResponse {
 	adult: boolean;
 	backdrop_path: string;
@@ -142,6 +144,7 @@ export interface SimklMeta {
 }
 
 export interface SimklShow {
+	anime_type?: SimklAnimeType;
 	added_to_watchlist_at: null | string;
 	last_watched_at: null | string;
 	status: string;
