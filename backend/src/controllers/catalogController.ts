@@ -3,6 +3,7 @@ import { hashToken, markUserActive } from '@/lib/activeUsers';
 import { getConfig } from '@/lib/config';
 import { getLogger } from '@/lib/requestContext';
 import {
+	SimklAnimeType,
 	StremioMediaType,
 	convertStremioMediaTypeToSimkl,
 } from '@/lib/mediaTypes';
@@ -150,14 +151,19 @@ export const generateCatalog = async (
 	for (const simklItem of items) {
 		const itemMeta =
 			(simklItem as SimklMovie).movie || (simklItem as SimklShow).show;
+		const resolvedType =
+			stremioMediaType === StremioMediaType.Anime
+				? (simklItem as SimklShow).anime_type === SimklAnimeType.Movie
+					? StremioMediaType.Movie
+					: StremioMediaType.Series
+				: stremioMediaType;
 
 		const tmdbMeta = itemMeta.ids.tmdb
-			? await getTMDBMeta(itemMeta.ids.tmdb, stremioMediaType)
+			? await getTMDBMeta(itemMeta.ids.tmdb, resolvedType)
 			: null;
 
 		const showNextEpisodeText =
-			(stremioMediaType == StremioMediaType.Series ||
-				stremioMediaType == StremioMediaType.Anime) &&
+			resolvedType == StremioMediaType.Series &&
 			listType == 'watching' &&
 			(simklItem as SimklShow).next_to_watch;
 		const nextEpisodeDescription = showNextEpisodeText
@@ -183,10 +189,7 @@ export const generateCatalog = async (
 
 		stremioItems.push({
 			id: itemMeta.ids.imdb,
-			type:
-				stremioMediaType == StremioMediaType.Anime
-					? StremioMediaType.Series
-					: stremioMediaType,
+			type: resolvedType,
 			name: itemMeta.title,
 			poster: posterUrl,
 			description,
@@ -200,7 +203,7 @@ export const generateCatalog = async (
 				},
 			],
 			genres,
-			releaseInfo: createReleaseInfo(stremioMediaType, tmdbMeta),
+			releaseInfo: createReleaseInfo(resolvedType, tmdbMeta),
 		});
 	}
 
